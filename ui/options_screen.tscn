@@ -1,0 +1,475 @@
+[gd_scene format=3 uid="uid://dj3ng2wmtqap8"]
+
+[ext_resource type="Script" uid="uid://b6rlgkqgwlik8" path="res://addons/fps_controller/ui/options_screen.gd" id="1_6os7q"]
+[ext_resource type="Theme" uid="uid://ntqh6xyylbj0" path="res://assets/styles/theme.tres" id="1_8dcm6"]
+[ext_resource type="PackedScene" uid="uid://ddvtvd40qb7ab" path="res://addons/settings_kit/rebind_container.tscn" id="2_ciqaw"]
+
+[node name="OptionsScreen" type="Control" unique_id=1322824204]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6os7q")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=269728799]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_8dcm6")
+
+[node name="OptionsContainer" type="TabContainer" parent="MarginContainer" unique_id=135726410]
+layout_mode = 2
+current_tab = 0
+
+[node name="Graphics" type="TabBar" parent="MarginContainer/OptionsContainer" unique_id=2090466983]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/OptionsContainer/Graphics" unique_id=482146427]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FlowContainer" type="FlowContainer" parent="MarginContainer/OptionsContainer/Graphics/MarginContainer" unique_id=583140629]
+layout_mode = 2
+theme_override_constants/h_separation = 24
+theme_override_constants/v_separation = 12
+vertical = true
+
+[node name="ScreenMode" type="HBoxContainer" parent="MarginContainer/OptionsContainer/Graphics/MarginContainer/FlowContainer" unique_id=207309612]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/separation = 20
+
+[node name="Name" type="Label" parent="MarginContainer/OptionsContainer/Graphics/MarginContainer/FlowContainer/ScreenMode" unique_id=1267054227]
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+text = "Screen Mode"
+vertical_alignment = 1
+
+[node name="OptionButton" type="OptionButton" parent="MarginContainer/OptionsContainer/Graphics/MarginContainer/FlowContainer/ScreenMode" unique_id=527473309]
+custom_minimum_size = Vector2(180, 40)
+layout_mode = 2
+alignment = 1
+selected = 0
+item_count = 3
+popup/item_0/text = "Windowed"
+popup/item_0/id = 0
+popup/item_1/text = "Fullscreen"
+popup/item_1/id = 1
+popup/item_2/text = "Borderless"
+popup/item_2/id = 3
+
+[node name="Resolution" type="HBoxContainer" parent="MarginContainer/OptionsContainer/Graphics/MarginContainer/FlowContainer" unique_id=16961013]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/separation = 20
+
+[node name="Name" type="Label" parent="MarginContainer/OptionsContainer/Graphics/MarginContainer/FlowContainer/Resolution" unique_id=2140737981]
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+text = "Resolution"
+vertical_alignment = 1
+
+[node name="OptionButton" type="OptionButton" parent="MarginContainer/OptionsContainer/Graphics/MarginContainer/FlowContainer/Resolution" unique_id=1772642493]
+custom_minimum_size = Vector2(180, 40)
+layout_mode = 2
+alignment = 1
+selected = 1
+item_count = 6
+popup/item_0/text = "1920x1080"
+popup/item_0/id = 0
+popup/item_1/text = "1600x900"
+popup/item_1/id = 1
+popup/item_2/text = "1366x768"
+popup/item_2/id = 2
+popup/item_3/text = "1280x720"
+popup/item_3/id = 3
+popup/item_4/text = "1024x576"
+popup/item_4/id = 4
+popup/item_5/id = 5
+
+[node name="VSync" type="HBoxContainer" parent="MarginContainer/OptionsContainer/Graphics/MarginContainer/FlowContainer" unique_id=926357914]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/separation = 20
+
+[node name="Name" type="Label" parent="MarginContainer/OptionsContainer/Graphics/MarginContainer/FlowContainer/VSync" unique_id=1785258521]
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+text = "VSync"
+vertical_alignment = 1
+
+[node name="CheckButton" type="CheckButton" parent="MarginContainer/OptionsContainer/Graphics/MarginContainer/FlowContainer/VSync" unique_id=712955425]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+alignment = 1
+
+[node name="Brightness" type="HBoxContainer" parent="MarginContainer/OptionsContainer/Graphics/MarginContainer/FlowContainer" unique_id=1251009902]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/separation = 20
+
+[node name="Name" type="Label" parent="MarginContainer/OptionsContainer/Graphics/MarginContainer/FlowContainer/Brightness" unique_id=195733332]
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+text = "Brightness"
+vertical_alignment = 1
+
+[node name="HSlider" type="HSlider" parent="MarginContainer/OptionsContainer/Graphics/MarginContainer/FlowContainer/Brightness" unique_id=2115231600]
+custom_minimum_size = Vector2(140, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+value = 50.0
+
+[node name="Value" type="Label" parent="MarginContainer/OptionsContainer/Graphics/MarginContainer/FlowContainer/Brightness" unique_id=385063327]
+custom_minimum_size = Vector2(20, 40)
+layout_mode = 2
+text = "50%"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FieldOfView" type="HBoxContainer" parent="MarginContainer/OptionsContainer/Graphics/MarginContainer/FlowContainer" unique_id=1634333269]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/separation = 20
+
+[node name="Name" type="Label" parent="MarginContainer/OptionsContainer/Graphics/MarginContainer/FlowContainer/FieldOfView" unique_id=1089255766]
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+text = "Field of view"
+vertical_alignment = 1
+
+[node name="HSlider" type="HSlider" parent="MarginContainer/OptionsContainer/Graphics/MarginContainer/FlowContainer/FieldOfView" unique_id=1730319652]
+custom_minimum_size = Vector2(140, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+min_value = 60.0
+max_value = 120.0
+value = 90.0
+
+[node name="Value" type="Label" parent="MarginContainer/OptionsContainer/Graphics/MarginContainer/FlowContainer/FieldOfView" unique_id=570899581]
+custom_minimum_size = Vector2(20, 40)
+layout_mode = 2
+text = "90"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Audio" type="TabBar" parent="MarginContainer/OptionsContainer" unique_id=2045140107]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/OptionsContainer/Audio" unique_id=2088087865]
+layout_mode = 0
+offset_right = 240.0
+offset_bottom = 160.0
+
+[node name="FlowContainer" type="FlowContainer" parent="MarginContainer/OptionsContainer/Audio/MarginContainer" unique_id=493636070]
+layout_mode = 2
+
+[node name="Master" type="HBoxContainer" parent="MarginContainer/OptionsContainer/Audio/MarginContainer/FlowContainer" unique_id=1208607575]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/separation = 20
+
+[node name="Name" type="Label" parent="MarginContainer/OptionsContainer/Audio/MarginContainer/FlowContainer/Master" unique_id=1763725629]
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+text = "Master"
+vertical_alignment = 1
+
+[node name="HSlider" type="HSlider" parent="MarginContainer/OptionsContainer/Audio/MarginContainer/FlowContainer/Master" unique_id=535439924]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+value = 50.0
+
+[node name="Value" type="Label" parent="MarginContainer/OptionsContainer/Audio/MarginContainer/FlowContainer/Master" unique_id=917039933]
+custom_minimum_size = Vector2(20, 40)
+layout_mode = 2
+text = "50%"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Music" type="HBoxContainer" parent="MarginContainer/OptionsContainer/Audio/MarginContainer/FlowContainer" unique_id=1208607576]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/separation = 20
+
+[node name="Name" type="Label" parent="MarginContainer/OptionsContainer/Audio/MarginContainer/FlowContainer/Music" unique_id=1763725630]
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+text = "Music"
+vertical_alignment = 1
+
+[node name="HSlider" type="HSlider" parent="MarginContainer/OptionsContainer/Audio/MarginContainer/FlowContainer/Music" unique_id=535439925]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+value = 50.0
+
+[node name="Value" type="Label" parent="MarginContainer/OptionsContainer/Audio/MarginContainer/FlowContainer/Music" unique_id=917039934]
+custom_minimum_size = Vector2(20, 40)
+layout_mode = 2
+text = "50%"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Effects" type="HBoxContainer" parent="MarginContainer/OptionsContainer/Audio/MarginContainer/FlowContainer" unique_id=1208607577]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/separation = 20
+
+[node name="Name" type="Label" parent="MarginContainer/OptionsContainer/Audio/MarginContainer/FlowContainer/Effects" unique_id=1763725631]
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+text = "Effects"
+vertical_alignment = 1
+
+[node name="HSlider" type="HSlider" parent="MarginContainer/OptionsContainer/Audio/MarginContainer/FlowContainer/Effects" unique_id=535439926]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+value = 50.0
+
+[node name="Value" type="Label" parent="MarginContainer/OptionsContainer/Audio/MarginContainer/FlowContainer/Effects" unique_id=917039935]
+custom_minimum_size = Vector2(20, 40)
+layout_mode = 2
+text = "50%"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Subtitles" type="HBoxContainer" parent="MarginContainer/OptionsContainer/Audio/MarginContainer/FlowContainer" unique_id=34011811]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/separation = 20
+
+[node name="Name" type="Label" parent="MarginContainer/OptionsContainer/Audio/MarginContainer/FlowContainer/Subtitles" unique_id=850507661]
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+text = "Subtitles"
+vertical_alignment = 1
+
+[node name="CheckButton" type="CheckButton" parent="MarginContainer/OptionsContainer/Audio/MarginContainer/FlowContainer/Subtitles" unique_id=1874084624]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+alignment = 1
+
+[node name="Gameplay" type="TabBar" parent="MarginContainer/OptionsContainer" unique_id=995463269]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/OptionsContainer/Gameplay" unique_id=69473761]
+layout_mode = 0
+offset_right = 240.0
+offset_bottom = 160.0
+
+[node name="FlowContainer" type="FlowContainer" parent="MarginContainer/OptionsContainer/Gameplay/MarginContainer" unique_id=104642210]
+layout_mode = 2
+
+[node name="Difficulty" type="HBoxContainer" parent="MarginContainer/OptionsContainer/Gameplay/MarginContainer/FlowContainer" unique_id=1421044902]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/separation = 20
+
+[node name="Name" type="Label" parent="MarginContainer/OptionsContainer/Gameplay/MarginContainer/FlowContainer/Difficulty" unique_id=250496127]
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+text = "Difficulty"
+vertical_alignment = 1
+
+[node name="OptionButton" type="OptionButton" parent="MarginContainer/OptionsContainer/Gameplay/MarginContainer/FlowContainer/Difficulty" unique_id=1304728743]
+custom_minimum_size = Vector2(230, 40)
+layout_mode = 2
+alignment = 1
+selected = 1
+item_count = 3
+popup/item_0/text = "Easy"
+popup/item_0/id = 0
+popup/item_1/text = "Normal"
+popup/item_1/id = 1
+popup/item_2/text = "Hard"
+popup/item_2/id = 2
+popup/item_2/disabled = true
+
+[node name="CameraSensitivity" type="HBoxContainer" parent="MarginContainer/OptionsContainer/Gameplay/MarginContainer/FlowContainer" unique_id=1196495675]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/separation = 20
+
+[node name="Name" type="Label" parent="MarginContainer/OptionsContainer/Gameplay/MarginContainer/FlowContainer/CameraSensitivity" unique_id=1149683466]
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+text = "Sensitivity"
+vertical_alignment = 1
+
+[node name="HSlider" type="HSlider" parent="MarginContainer/OptionsContainer/Gameplay/MarginContainer/FlowContainer/CameraSensitivity" unique_id=1635911107]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+value = 50.0
+
+[node name="Value" type="Label" parent="MarginContainer/OptionsContainer/Gameplay/MarginContainer/FlowContainer/CameraSensitivity" unique_id=871343212]
+custom_minimum_size = Vector2(20, 40)
+layout_mode = 2
+text = "50%"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="InvertX" type="HBoxContainer" parent="MarginContainer/OptionsContainer/Gameplay/MarginContainer/FlowContainer" unique_id=1237865020]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/separation = 20
+
+[node name="Name" type="Label" parent="MarginContainer/OptionsContainer/Gameplay/MarginContainer/FlowContainer/InvertX" unique_id=1551527012]
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+text = "Camera Invert X"
+vertical_alignment = 1
+
+[node name="CheckButton" type="CheckButton" parent="MarginContainer/OptionsContainer/Gameplay/MarginContainer/FlowContainer/InvertX" unique_id=760691637]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+alignment = 1
+
+[node name="InvertY" type="HBoxContainer" parent="MarginContainer/OptionsContainer/Gameplay/MarginContainer/FlowContainer" unique_id=50344332]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/separation = 20
+
+[node name="Name" type="Label" parent="MarginContainer/OptionsContainer/Gameplay/MarginContainer/FlowContainer/InvertY" unique_id=1566205514]
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+text = "Camera Invert Y"
+vertical_alignment = 1
+
+[node name="CheckButton" type="CheckButton" parent="MarginContainer/OptionsContainer/Gameplay/MarginContainer/FlowContainer/InvertY" unique_id=2087875399]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+alignment = 1
+
+[node name="Controls" type="TabBar" parent="MarginContainer/OptionsContainer" unique_id=906335528]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/OptionsContainer/Controls" unique_id=799254242]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="FlowContainer" type="FlowContainer" parent="MarginContainer/OptionsContainer/Controls/MarginContainer" unique_id=975248733]
+layout_mode = 2
+theme_override_constants/h_separation = 200
+theme_override_constants/v_separation = 20
+vertical = true
+
+[node name="RebindContainer" parent="MarginContainer/OptionsContainer/Controls/MarginContainer/FlowContainer" unique_id=1656136948 instance=ExtResource("2_ciqaw")]
+layout_mode = 2
+action = "Forward"
+
+[node name="RebindContainer3" parent="MarginContainer/OptionsContainer/Controls/MarginContainer/FlowContainer" unique_id=1155095706 instance=ExtResource("2_ciqaw")]
+layout_mode = 2
+action = "Left"
+
+[node name="RebindContainer2" parent="MarginContainer/OptionsContainer/Controls/MarginContainer/FlowContainer" unique_id=1717980239 instance=ExtResource("2_ciqaw")]
+layout_mode = 2
+action = "Backward"
+
+[node name="RebindContainer4" parent="MarginContainer/OptionsContainer/Controls/MarginContainer/FlowContainer" unique_id=1641345403 instance=ExtResource("2_ciqaw")]
+layout_mode = 2
+action = "Right"
+
+[node name="RebindContainer5" parent="MarginContainer/OptionsContainer/Controls/MarginContainer/FlowContainer" unique_id=205758720 instance=ExtResource("2_ciqaw")]
+layout_mode = 2
+action = "Jump"
+
+[node name="RebindContainer6" parent="MarginContainer/OptionsContainer/Controls/MarginContainer/FlowContainer" unique_id=1756807419 instance=ExtResource("2_ciqaw")]
+layout_mode = 2
+action = "Sprint"
+
+[node name="RebindContainer7" parent="MarginContainer/OptionsContainer/Controls/MarginContainer/FlowContainer" unique_id=852245437 instance=ExtResource("2_ciqaw")]
+layout_mode = 2
+action = "Dash"
+
+[node name="RebindContainer10" parent="MarginContainer/OptionsContainer/Controls/MarginContainer/FlowContainer" unique_id=34043207 instance=ExtResource("2_ciqaw")]
+layout_mode = 2
+action = "Interact"
+
+[node name="Accessibility" type="TabBar" parent="MarginContainer/OptionsContainer" unique_id=553644132]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 4
+
+[node name="Controller" type="TabBar" parent="MarginContainer/OptionsContainer" unique_id=1610912004]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 5
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/OptionsContainer/Controller" unique_id=1083321658]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FlowContainer" type="FlowContainer" parent="MarginContainer/OptionsContainer/Controller/MarginContainer" unique_id=823300911]
+layout_mode = 2
+theme_override_constants/h_separation = 200
+theme_override_constants/v_separation = 12
+vertical = true
+
+[node name="ButtonContainer" type="HBoxContainer" parent="MarginContainer" unique_id=270896259]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_constants/separation = 10
+
+[node name="ApplyButton" type="Button" parent="MarginContainer/ButtonContainer" unique_id=270896258]
+custom_minimum_size = Vector2(120, 26)
+layout_mode = 2
+text = "Apply"
+
+[node name="CloseOptions" type="Button" parent="MarginContainer/ButtonContainer" unique_id=270896260]
+custom_minimum_size = Vector2(120, 26)
+layout_mode = 2
+text = "Close | x"
+
+[connection signal="item_selected" from="MarginContainer/OptionsContainer/Graphics/MarginContainer/FlowContainer/ScreenMode/OptionButton" to="." method="_on_screen_mode_item_selected"]
+[connection signal="item_selected" from="MarginContainer/OptionsContainer/Graphics/MarginContainer/FlowContainer/Resolution/OptionButton" to="." method="_on_resolution_item_selected"]
+[connection signal="pressed" from="MarginContainer/ButtonContainer/ApplyButton" to="." method="_on_apply_button_pressed"]
+[connection signal="pressed" from="MarginContainer/ButtonContainer/CloseOptions" to="." method="_on_close_options_pressed"]

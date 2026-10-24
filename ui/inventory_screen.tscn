@@ -1,0 +1,99 @@
+[gd_scene format=3 uid="uid://bm7la4xskxhg3"]
+
+[ext_resource type="Script" uid="uid://7tbm7c2n27hg" path="res://addons/fps_controller/ui/inventory_screen.gd" id="1_l83tk"]
+
+[node name="Inventory" type="Control" unique_id=1243742253]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_l83tk")
+
+[node name="Root" type="ColorRect" parent="." unique_id=956471823]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(0, 0, 0, 0.55)
+
+[node name="MarginContainer" type="MarginContainer" parent="Root" unique_id=1933296114]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Root/MarginContainer" unique_id=1480537969]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Left" type="VBoxContainer" parent="Root/MarginContainer/HBoxContainer" unique_id=356150774]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="TitleLabel" type="Label" parent="Root/MarginContainer/HBoxContainer/Left" unique_id=614866050]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Inventory"
+
+[node name="GridArea" type="Control" parent="Root/MarginContainer/HBoxContainer/Left" unique_id=1930205991]
+custom_minimum_size = Vector2(512, 320)
+layout_mode = 2
+mouse_filter = 1
+
+[node name="QuickLabel" type="Label" parent="Root/MarginContainer/HBoxContainer/Left" unique_id=2065870628]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Quick Equip"
+
+[node name="QuickBar" type="HBoxContainer" parent="Root/MarginContainer/HBoxContainer/Left" unique_id=1504105436]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Right" type="VBoxContainer" parent="Root/MarginContainer/HBoxContainer" unique_id=1052070437]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="SortButton" type="Button" parent="Root/MarginContainer/HBoxContainer/Right" unique_id=108472303]
+layout_mode = 2
+text = "Sort by Type"
+
+[node name="WeightLabel" type="Label" parent="Root/MarginContainer/HBoxContainer/Right" unique_id=1768296974]
+layout_mode = 2
+text = "Weight: 0.00 kg"
+
+[node name="PriceLabel" type="Label" parent="Root/MarginContainer/HBoxContainer/Right" unique_id=420410796]
+layout_mode = 2
+text = "Value: 0.00 €"
+
+[node name="ToastLabel" type="Label" parent="Root" unique_id=32514633]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -120.0
+offset_top = -80.0
+offset_right = 120.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 0.3, 0.3, 1)
+theme_override_font_sizes/font_size = 20
+text = "Not enough space"
+horizontal_alignment = 1
+vertical_alignment = 1

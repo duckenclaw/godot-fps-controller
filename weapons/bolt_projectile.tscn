@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://dbjd4dhj06ex8"]
+
+[ext_resource type="Script" uid="uid://bj60lf1sgk5bx" path="res://addons/fps_controller/weapons/bolt_projectile.gd" id="1_script"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_bolt"]
+size = Vector3(0.04, 0.04, 0.5)
+
+[node name="BoltProjectile" type="Node3D" unique_id=956275236]
+script = ExtResource("1_script")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=598612903]
+mesh = SubResource("BoxMesh_bolt")

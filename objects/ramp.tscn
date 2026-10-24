@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://bqdwcp5vs7wc2"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_lu8k8"]
+points = PackedVector3Array(-1.5, 1, 0.5, 1.5, -1, 0.5, -1.5, 1, -0.5, -1.5, -1, 0.5, 1.5, -1, -0.5, -1.5, -1, -0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lu8k8"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_gt1kl"]
+material = SubResource("StandardMaterial3D_lu8k8")
+left_to_right = 0.0
+size = Vector3(3, 2, 1)
+
+[node name="Ramp" type="StaticBody3D" unique_id=1375148880]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1860763555]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("ConvexPolygonShape3D_lu8k8")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1954845314]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("PrismMesh_gt1kl")
