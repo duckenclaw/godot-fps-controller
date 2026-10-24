@@ -1,12 +1,9 @@
 name: validate
 
-# Headless validation. Builds a throwaway project, installs this addon under
-# addons/fps_controller, then imports and script-checks it. Adjust godot-version to
-# match the Godot you develop against.
-on:
-  push:
-  pull_request:
-  workflow_dispatch:
+# Headless validation: assemble a throwaway project with this addon under
+# addons/fps_controller, then import and boot it briefly. Adjust godot-version to the
+# Godot release you develop against.
+on: [push, pull_request, workflow_dispatch]
 
 jobs:
   check:
@@ -17,17 +14,12 @@ jobs:
         with:
           version: 4.3.0
           use-dotnet: false
-      - name: Assemble a temp project with the addon
+      - name: Assemble temp project
         run: |
           mkdir -p _ci/addons/fps_controller
           rsync -a --exclude '.git' --exclude '_ci' ./ _ci/addons/fps_controller/
-          cat > _ci/project.godot <<'PG'
-          config_version=5
-          [application]
-          config/name="ci"
-          config/features=PackedStringArray("4.3", "GL Compatibility")
-          PG
-      - name: Import & headless check
+          printf '%s\n' 'config_version=5' '' '[application]' 'config/name="ci"' 'config/features=PackedStringArray("4.3", "GL Compatibility")' > _ci/project.godot
+      - name: Import & boot
         run: |
           godot --headless --path _ci --import || true
           godot --headless --path _ci --quit-after 5
