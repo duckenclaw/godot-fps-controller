@@ -1,0 +1,10 @@
+# Godot 4 editor cache
+.godot/
+
+# Mono / .NET (unused but safe)
+.mono/
+data_*/
+
+# OS / editor cruft
+.DS_Store
+*.tmp
