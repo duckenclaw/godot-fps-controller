@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://bnqvqto31x45a"]
+
+[ext_resource type="Script" uid="uid://hikmnkgtthjx" path="res://addons/fps_controller/objects/door.gd" id="1_door"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_panel"]
+size = Vector3(1.7, 2, 0.12)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_door"]
+albedo_color = Color(0.55, 0.36, 0.2, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_panel"]
+material = SubResource("StandardMaterial3D_door")
+size = Vector3(1.7, 2, 0.12)
+
+[node name="Door" type="Node3D" unique_id=1419331088]
+
+[node name="Anchor" type="StaticBody3D" parent="." unique_id=1969688274]
+
+[node name="DoorPanel" type="RigidBody3D" parent="." unique_id=527162307 groups=["movable"]]
+collision_layer = 5
+collision_mask = 0
+script = ExtResource("1_door")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DoorPanel" unique_id=884416333]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.85, 1, 0)
+shape = SubResource("BoxShape3D_panel")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="DoorPanel" unique_id=1465914370]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.85, 1, 0)
+mesh = SubResource("BoxMesh_panel")
+
+[node name="HingeJoint3D" type="HingeJoint3D" parent="." unique_id=1058670551]
+transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0, 0)
+node_a = NodePath("../Anchor")
+node_b = NodePath("../DoorPanel")
+angular_limit/enable = true
+angular_limit/upper = 90.0
+angular_limit/lower = -90.0

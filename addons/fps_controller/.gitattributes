@@ -1,0 +1,8 @@
+# Normalize line endings
+* text=auto eol=lf
+
+# Godot text resources
+*.gd   linguist-language=GDScript text
+*.tscn text
+*.tres text
+*.cfg  text

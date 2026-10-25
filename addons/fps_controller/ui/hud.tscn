@@ -1,0 +1,210 @@
+[gd_scene format=3 uid="uid://4epmqkty5xqt"]
+
+[ext_resource type="Theme" uid="uid://b3ql5ekwvpoqt" path="res://assets/styles/hud.tres" id="1_snmo6"]
+[ext_resource type="Script" uid="uid://c3ti3vejdx3gy" path="res://addons/fps_controller/ui/hud.gd" id="2_i4jpw"]
+[ext_resource type="Texture2D" uid="uid://dv532pqh1mdsj" path="res://assets/images/crosshair.png" id="3_r2cn7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b78gm"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.1, 0.1, 0.1, 0.3)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mrd8b"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.88235295, 0.019607844, 0.019607844, 0.6392157)
+border_color = Color(0.5176471, 0.003921569, 0.003921569, 0.7254902)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4sddl"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.019607844, 0.019607844, 0.88235295, 0.49019608)
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_snmo6"]
+bg_color = Color(0.13333334, 0.5568628, 0.13333334, 1)
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="HUD" type="Control" unique_id=357051303]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_snmo6")
+script = ExtResource("2_i4jpw")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=69884256]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Bars" type="VBoxContainer" parent="MarginContainer" unique_id=1357023056]
+custom_minimum_size = Vector2(240, 100)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="HealthBar" type="ProgressBar" parent="MarginContainer/Bars" unique_id=96698769]
+custom_minimum_size = Vector2(240, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/background = SubResource("StyleBoxFlat_b78gm")
+theme_override_styles/fill = SubResource("StyleBoxFlat_mrd8b")
+value = 50.0
+show_percentage = false
+
+[node name="Value" type="Label" parent="MarginContainer/Bars/HealthBar" unique_id=782902833]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 13.0
+offset_top = -10.0
+offset_right = -107.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "50/100"
+vertical_alignment = 1
+
+[node name="ManaBar" type="ProgressBar" parent="MarginContainer/Bars" unique_id=1140476676]
+custom_minimum_size = Vector2(220, 20)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/background = SubResource("StyleBoxFlat_b78gm")
+theme_override_styles/fill = SubResource("StyleBoxFlat_4sddl")
+value = 50.0
+show_percentage = false
+
+[node name="Value" type="Label" parent="MarginContainer/Bars/ManaBar" unique_id=195312177]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 13.0
+offset_top = -10.0
+offset_right = -107.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 14
+text = "50/100"
+vertical_alignment = 1
+
+[node name="StaminaBar" type="ProgressBar" parent="MarginContainer/Bars" unique_id=1976187160]
+custom_minimum_size = Vector2(220, 20)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/background = SubResource("StyleBoxFlat_b78gm")
+theme_override_styles/fill = SubResource("StyleBoxFlat_snmo6")
+value = 50.0
+show_percentage = false
+
+[node name="Value" type="Label" parent="MarginContainer/Bars/StaminaBar" unique_id=1866512818]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 13.0
+offset_top = -10.0
+offset_right = -107.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 14
+text = "50/100"
+vertical_alignment = 1
+
+[node name="EquippedItem" type="VBoxContainer" parent="MarginContainer" unique_id=507088000]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="Title" type="Label" parent="MarginContainer/EquippedItem" unique_id=749165835]
+layout_mode = 2
+text = "Equipped"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ItemIcon" type="TextureRect" parent="MarginContainer/EquippedItem" unique_id=1171233122]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+
+[node name="ItemLabel" type="Label" parent="MarginContainer/EquippedItem" unique_id=2103204544]
+layout_mode = 2
+size_flags_vertical = 0
+text = "No item"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Crosshair" type="Control" parent="MarginContainer" unique_id=225850012]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/Crosshair" unique_id=460468060]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -12.0
+offset_right = 24.0
+offset_bottom = 12.0
+grow_vertical = 2
+rotation = 0.7853982
+texture = ExtResource("3_r2cn7")
+
+[node name="ToastLabel" type="Label" parent="." unique_id=987654300]
+layout_mode = 0
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -150.0
+offset_top = 80.0
+offset_right = 150.0
+offset_bottom = 120.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.3, 0.3, 1)
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="QuickBar" type="HBoxContainer" parent="." unique_id=987654321]
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -276.0
+offset_top = -80.0
+offset_right = 276.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 4

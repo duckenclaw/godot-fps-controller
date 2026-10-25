@@ -1,0 +1,25 @@
+name: validate
+
+# Headless validation: assemble a throwaway project with this addon under
+# addons/fps_controller, then import and boot it briefly. Adjust godot-version to the
+# Godot release you develop against.
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: chickensoft-games/setup-godot@v2
+        with:
+          version: 4.3.0
+          use-dotnet: false
+      - name: Assemble temp project
+        run: |
+          mkdir -p _ci/addons/fps_controller
+          rsync -a --exclude '.git' --exclude '_ci' ./ _ci/addons/fps_controller/
+          printf '%s\n' 'config_version=5' '' '[application]' 'config/name="ci"' 'config/features=PackedStringArray("4.3", "GL Compatibility")' > _ci/project.godot
+      - name: Import & boot
+        run: |
+          godot --headless --path _ci --import || true
+          godot --headless --path _ci --quit-after 5

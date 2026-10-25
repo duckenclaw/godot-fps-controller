@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://cbvxpckpickup"]
+
+[ext_resource type="Script" uid="uid://m3s3aimaknho" path="res://addons/fps_controller/items/pickup.gd" id="1_pickup"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pick"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[node name="Pickup" type="RigidBody3D" unique_id=914650716 groups=["interactable"]]
+collision_layer = 4
+collision_mask = 5
+script = ExtResource("1_pickup")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1612925402]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+shape = SubResource("BoxShape3D_pick")
