@@ -3,9 +3,24 @@ extends Resource
 
 ## Player configuration resource containing all movement and camera settings
 
+# Mechanics toggles — turn individual abilities on/off to tailor the controller
+# to a genre. Disabling one also makes it safe to delete that ability's state node
+# from the player's StateMachine (see player.gd can_* helpers). The "core" abilities
+# (walk/run movement, jumping, crouching, interacting) have no flags; they always run.
+@export_group("Mechanics")
+@export var enable_sprint: bool = true          ## Hold-to-sprint (faster while holding "sprint").
+@export var enable_crouch: bool = true          ## Crouch toggle (needs a CrouchingState node).
+@export var enable_walk_run_toggle: bool = true ## Capslock toggles base speed walk<->run.
+@export var enable_dash: bool = true            ## Dash in camera direction (needs a DashingState node).
+@export var enable_slide: bool = true           ## Slide when crouching at sprint speed (needs a SlidingState node).
+@export var enable_wallrun: bool = true         ## Wallrun along walls (needs a WallrunningState node).
+@export var enable_grab: bool = true            ## Hold interact to grab/throw "movable" physics objects.
+@export_group("")
+
 # Movement speeds
-@export var walk_speed: float = 5.0
-@export var sprint_speed: float = 8.0
+@export var walk_speed: float = 3.0     ## Base speed in "walk" mode (walk/run toggle off).
+@export var run_speed: float = 5.0      ## Base speed in "run" mode (default; walk/run toggle on).
+@export var sprint_speed: float = 8.0   ## Speed while holding "sprint" (overrides walk/run).
 @export var crouch_speed: float = 2.5
 @export var slide_speed: float = 10.0
 @export var wallrun_speed: float = 6.0

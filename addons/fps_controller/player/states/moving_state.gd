@@ -24,12 +24,12 @@ func update(delta: float) -> String:
 
 	# Update sprint state (only when moving forward and not crouching)
 	# input_dir.y > 0.7 means player is pressing forward (not backward/strafing)
-	is_sprinting = Input.is_action_pressed("sprint") and input_dir.y > 0.7 and not is_crouching
-	
-	# Check for slide (only when sprinting and crouch toggled on)
-	if player.crouch_pressed and is_sprinting and not was_crouching:
+	is_sprinting = player.config.enable_sprint and Input.is_action_pressed("sprint") and input_dir.y > 0.7 and not is_crouching
+
+	# Check for slide (only when sprinting and crouch toggled on, and slide is enabled)
+	if player.crouch_pressed and is_sprinting and not was_crouching and player.can_slide():
 		return "SlidingState"
-	
+
 	is_crouching = player.is_crouch_toggled
 
 	# Check for jump
@@ -37,7 +37,7 @@ func update(delta: float) -> String:
 		return "JumpingState"
 
 	# Check for dash
-	if player.dash_pressed:
+	if player.dash_pressed and player.can_dash():
 		return "DashingState"
 
 
@@ -58,8 +58,8 @@ func update(delta: float) -> String:
 	else:
 		player.set_normal_height()
 
-	# Calculate target speed
-	var target_speed = player.config.walk_speed
+	# Calculate target speed: walk/run toggle sets the base, sprint/crouch override.
+	var target_speed = player.base_move_speed()
 	if is_sprinting:
 		target_speed = player.config.sprint_speed
 	elif is_crouching:

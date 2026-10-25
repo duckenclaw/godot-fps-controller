@@ -20,7 +20,7 @@ var stamina: float = 100.0
 @onready var interact_raycast: RayCast3D = $CameraPivot/Camera3D/InteractRayCast
 @onready var hands: Hands = $CameraPivot/Camera3D/Hands
 @onready var hold_point: Node3D = $CameraPivot/Camera3D/HoldPoint
-@onready var grab_controller: GrabController = $GrabController
+@onready var grab_controller: GrabController = get_node_or_null("GrabController")
 @onready var state_machine: StateMachine = $StateMachine
 @onready var inventory: Inventory = $Inventory
 
@@ -50,6 +50,9 @@ var _interact_consumed: bool = false  # this press already grabbed/dropped — n
 
 # Crouch toggle state
 var is_crouch_toggled: bool = false
+
+# Walk/run toggle (Capslock). true = run (default base speed), false = walk.
+var is_running: bool = true
 
 # Track if currently falling from a jump (for coyote time)
 var is_falling_from_jump: bool = false
@@ -92,8 +95,12 @@ func _ready() -> void:
 	# Register for the save system (see save_data/load_data below).
 	add_to_group("saveable")
 
-	# Setup wallrun raycasts
-	setup_wallrun_raycasts()
+	# Ensure this controller's optional actions exist even in a bare project.
+	_ensure_default_actions()
+
+	# Setup wallrun raycasts (only if the mechanic is enabled)
+	if config.enable_wallrun:
+		setup_wallrun_raycasts()
 
 	# Pass config to camera
 	if camera:
@@ -113,7 +120,7 @@ func _ready() -> void:
 		hands.setup(self, inventory)
 
 	# Let the grab controller manipulate "movable" objects in front of the camera
-	if grab_controller:
+	if config.enable_grab and grab_controller:
 		grab_controller.setup(camera_3d, hold_point, hands)
 
 	# Wire inventory UI
@@ -166,30 +173,37 @@ func _input(event: InputEvent) -> void:
 	if is_inventory_open:
 		return
 
-	# Interact: tap = pick item into inventory; hold = grab a movable object.
-	# While already holding a movable object, a press drops it.
+	# Walk/run toggle (Capslock by default). Switches the base movement speed.
+	if config.enable_walk_run_toggle and event.is_action_pressed("walk_run_toggle"):
+		is_running = not is_running
+		if hud and hud.has_method("show_toast"):
+			hud.show_toast("Run" if is_running else "Walk")
+		return
+
+	# Interact: tap = pick item into inventory; hold = grab a movable object (if grab
+	# is enabled). While already holding a movable object, a press drops it.
 	if event.is_action_pressed("interact"):
-		if grab_controller.is_holding():
+		if _is_holding():
 			grab_controller.drop()
 			_interact_consumed = true
 		_interact_pressed = true
 		_interact_time = 0.0
 	elif event.is_action_released("interact"):
 		# A quick release that didn't grab/drop counts as a tap → pick up.
-		if _interact_pressed and not _interact_consumed and not grab_controller.is_holding():
+		if _interact_pressed and not _interact_consumed and not _is_holding():
 			try_pickup()
 		_interact_pressed = false
 		_interact_consumed = false
 
 	# Handle hand actions — while holding, the hands instead drop/throw the object.
 	if event.is_action_pressed("left_hand"):
-		if grab_controller.is_holding():
+		if _is_holding():
 			grab_controller.drop()
 		else:
 			hands.use_left_hand()
 
 	if event.is_action_pressed("right_hand"):
-		if grab_controller.is_holding():
+		if _is_holding():
 			grab_controller.throw()
 		else:
 			hands.use_right_hand()
@@ -212,12 +226,13 @@ func _physics_process(delta: float) -> void:
 	# Smoothly interpolate height
 	update_height_smooth(delta)
 
-	# Once interact has been held long enough, grab the movable object in view.
+	# Once interact has been held long enough, grab the movable object in view
+	# (only when grab is enabled; otherwise interact is tap-to-pickup only).
 	if _interact_pressed and not Input.is_action_pressed("interact"):
 		# Release was swallowed (e.g. inventory opened mid-press) — reset tracking.
 		_interact_pressed = false
 		_interact_consumed = false
-	elif _interact_pressed and not _interact_consumed and not grab_controller.is_holding():
+	elif config.enable_grab and grab_controller and _interact_pressed and not _interact_consumed and not grab_controller.is_holding():
 		_interact_time += delta
 		if _interact_time >= INTERACT_HOLD_TIME:
 			var movable: Node3D = get_movable_in_view()
@@ -237,8 +252,8 @@ func _physics_process(delta: float) -> void:
 		dash_pressed = Input.is_action_just_pressed("dash")
 		crouch_pressed = Input.is_action_just_pressed("crouch")
 
-	# Toggle crouch state when crouch is pressed
-	if crouch_pressed:
+	# Toggle crouch state when crouch is pressed (if crouch is enabled)
+	if crouch_pressed and config.enable_crouch:
 		is_crouch_toggled = not is_crouch_toggled
 
 ## Get 2D input direction.
@@ -262,6 +277,40 @@ func get_move_direction() -> Vector3:
 
 	# Calculate movement direction
 	return (forward * input_dir.y + right * input_dir.x).normalized()
+
+## Base movement speed honoring the walk/run toggle (Capslock). Sprint and crouch
+## override this in the moving state.
+func base_move_speed() -> float:
+	if config.enable_walk_run_toggle and not is_running:
+		return config.walk_speed
+	return config.run_speed
+
+## True only when grab is enabled, a GrabController exists, and it is holding something.
+func _is_holding() -> bool:
+	return config.enable_grab and grab_controller != null and grab_controller.is_holding()
+
+## True if a state with this name is still present in the StateMachine.
+func _has_state(state_name: String) -> bool:
+	return state_machine != null and state_machine.has_state(state_name)
+
+## Optional-mechanic gates: enabled only if the config flag is on AND the matching
+## state node still exists — so turning the flag off OR deleting the state node both
+## cleanly disable the ability. States call these before transitioning.
+func can_dash() -> bool:
+	return config.enable_dash and _has_state("DashingState")
+
+func can_slide() -> bool:
+	return config.enable_slide and _has_state("SlidingState")
+
+## Register this controller's optional input actions with sane defaults if the host
+## project hasn't defined them, so the addon works when dropped into a bare project.
+## The project or the rebind UI can override the bindings afterwards.
+func _ensure_default_actions() -> void:
+	if not InputMap.has_action("walk_run_toggle"):
+		InputMap.add_action("walk_run_toggle")
+		var ev := InputEventKey.new()
+		ev.physical_keycode = KEY_CAPSLOCK
+		InputMap.action_add_event("walk_run_toggle", ev)
 
 ## Tap interact: trigger the object's interact() (e.g. pick a Pickup into inventory).
 func try_pickup() -> void:
@@ -292,6 +341,10 @@ func setup_wallrun_raycasts() -> void:
 
 ## Check if player can wallrun
 func can_wallrun() -> bool:
+	# Gated by the mechanic flag and the presence of a WallrunningState node.
+	if not config.enable_wallrun or not _has_state("WallrunningState"):
+		return false
+
 	# Must be in the air
 	if is_on_floor():
 		return false

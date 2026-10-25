@@ -16,7 +16,7 @@ func update(delta: float) -> String:
 		return "JumpingState"
 
 	# Check for dash
-	if player.dash_pressed:
+	if player.dash_pressed and player.can_dash():
 		return "DashingState"
 
 	# Check for crouch toggle
