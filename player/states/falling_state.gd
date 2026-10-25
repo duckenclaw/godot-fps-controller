@@ -22,10 +22,10 @@ func update(delta: float) -> String:
 		return "JumpingState"
 
 	# Check for dash
-	if player.dash_pressed:
+	if player.dash_pressed and player.can_dash():
 		return "DashingState"
 
-	# Check for wallrun
+	# Check for wallrun (can_wallrun() is gated by the flag + WallrunningState node)
 	if player.can_wallrun():
 		return "WallrunningState"
 
@@ -45,7 +45,7 @@ func update(delta: float) -> String:
 	var input_dir = player.get_input_direction()
 	if input_dir.length() > 0:
 		var direction = player.get_move_direction()
-		var target_velocity = direction * player.config.walk_speed
+		var target_velocity = direction * player.base_move_speed()
 		player.velocity.x = move_toward(player.velocity.x, target_velocity.x, player.config.air_acceleration * delta)
 		player.velocity.z = move_toward(player.velocity.z, target_velocity.z, player.config.air_acceleration * delta)
 
