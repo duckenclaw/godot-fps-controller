@@ -1,8 +1,8 @@
 name: validate
 
 # Headless validation: assemble a throwaway project with this addon under
-# addons/fps_controller, then import and boot it briefly. Adjust godot-version to the
-# Godot release you develop against.
+# addons/fps_controller (plus the kits it depends on), then load every script, scene
+# and resource in it and fail on any compile or load error.
 on: [push, pull_request, workflow_dispatch]
 
 jobs:
@@ -11,15 +11,47 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: chickensoft-games/setup-godot@v2
-        with:
-          version: 4.7.2
-          use-dotnet: false
+        with: { version: 4.7.2, use-dotnet: false }
       - name: Assemble temp project
         run: |
           mkdir -p _ci/addons/fps_controller
           rsync -a --exclude '.git' --exclude '_ci' ./ _ci/addons/fps_controller/
-          printf '%s\n' 'config_version=5' '' '[application]' 'config/name="ci"' 'config/features=PackedStringArray("4.7", "GL Compatibility")' > _ci/project.godot
-      - name: Import & boot
-        run: |
-          godot --headless --path _ci --import || true
-          godot --headless --path _ci --quit-after 5
+          git clone --depth 1 https://github.com/duckenclaw/godot-components-kit _ci/addons/components_kit
+          git clone --depth 1 https://github.com/duckenclaw/godot-inventory-kit _ci/addons/inventory_kit
+          git clone --depth 1 https://github.com/duckenclaw/godot-settings-kit _ci/addons/settings_kit
+          git clone --depth 1 https://github.com/duckenclaw/godot-core _ci/addons/core
+          printf '%s\n' 'config_version=5' '' '[application]' 'config/name="ci"' 'config/features=PackedStringArray("4.7", "GL Compatibility")' '' '[autoload]' '' 'EventBus="*res://addons/core/event_bus.gd"' 'SceneManager="*res://addons/core/scene_manager.gd"' 'AudioManager="*res://addons/core/audio_manager.gd"' 'SaveManager="*res://addons/core/save_manager.gd"' 'Localization="*res://addons/core/localization.gd"' 'Debug="*res://addons/core/debug_overlay.gd"' 'GameSettings="*res://addons/settings_kit/settings_manager.gd"' > _ci/project.godot
+          cat > _ci/check.gd <<'GD'
+          extends SceneTree
+          ## Load every script, scene and resource in the addon; fail on any error.
+          func _initialize() -> void:
+          	var files: Array[String] = []
+          	_walk("res://addons/fps_controller", files)
+          	var fails := 0
+          	for f in files:
+          		var res := ResourceLoader.load(f, "", ResourceLoader.CACHE_MODE_IGNORE)
+          		var ok := res != null
+          		if ok and res is GDScript:
+          			ok = (res as GDScript).can_instantiate()
+          		if ok and res is PackedScene:
+          			ok = (res as PackedScene).can_instantiate()
+          		if not ok:
+          			fails += 1
+          			print("FAIL: " + f)
+          	print("checked %d files, %d failures" % [files.size(), fails])
+          	quit(1 if fails > 0 else 0)
+
+
+          func _walk(path: String, out: Array[String]) -> void:
+          	var d := DirAccess.open(path)
+          	if d == null:
+          		return
+          	for sub in d.get_directories():
+          		if not sub.begins_with("."):
+          			_walk(path.path_join(sub), out)
+          	for f in d.get_files():
+          		if f.get_extension() in ["gd", "tscn", "tres"]:
+          			out.append(path.path_join(f))
+          GD
+      - run: godot --headless --path _ci --import || true
+      - run: godot --headless --path _ci --script check.gd
