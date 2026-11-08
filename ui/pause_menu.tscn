@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c4qrq5kj8wqt4"]
 
 [ext_resource type="Script" uid="uid://b287ob3eypiht" path="res://addons/fps_controller/ui/pause_menu.gd" id="1_pause_menu"]
-[ext_resource type="Theme" uid="uid://ntqh6xyylbj0" path="res://assets/styles/theme.tres" id="2_theme"]
+[ext_resource type="Theme" path="res://addons/fps_controller/assets/styles/theme.tres" id="2_theme"]
 [ext_resource type="PackedScene" uid="uid://dj3ng2wmtqap8" path="res://addons/fps_controller/ui/options_screen.tscn" id="3_options"]
 
 [node name="PauseMenu" type="Control" unique_id=200788651]

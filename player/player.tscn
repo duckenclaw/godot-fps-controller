@@ -17,7 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://4epmqkty5xqt" path="res://addons/fps_controller/ui/hud.tscn" id="14_ejvt7"]
 [ext_resource type="PackedScene" uid="uid://c4qrq5kj8wqt4" path="res://addons/fps_controller/ui/pause_menu.tscn" id="15_u15jt"]
 [ext_resource type="PackedScene" uid="uid://bm7la4xskxhg3" path="res://addons/fps_controller/ui/inventory_screen.tscn" id="17_oyld2"]
-[ext_resource type="AudioStream" uid="uid://cfxtnb6hisoi2" path="res://assets/sounds/steps/step0.wav" id="17_phnc4"]
+[ext_resource type="AudioStream" path="res://addons/fps_controller/assets/sounds/steps/step0.wav" id="17_phnc4"]
 [ext_resource type="Script" uid="uid://cb32swj3ra2cv" path="res://addons/inventory_kit/inventory.gd" id="18_inv"]
 [ext_resource type="Script" uid="uid://dsef838gui3e5" path="res://addons/fps_controller/player/hands_camera.gd" id="19_handcam"]
 [ext_resource type="Script" uid="uid://bjhuexgn1b6wk" path="res://addons/fps_controller/player/grab_controller.gd" id="20_grab"]

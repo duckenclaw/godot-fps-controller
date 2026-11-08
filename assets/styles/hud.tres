@@ -1,0 +1,11 @@
+[gd_resource type="Theme" format=3]
+
+[ext_resource type="FontFile" path="res://addons/fps_controller/assets/fonts/PixeloidMono.ttf" id="1_sdues"]
+
+[resource]
+default_font = ExtResource("1_sdues")
+MarginContainer/constants/margin_bottom = 60
+MarginContainer/constants/margin_left = 80
+MarginContainer/constants/margin_right = 60
+MarginContainer/constants/margin_top = 80
+VBoxContainer/constants/separation = 0

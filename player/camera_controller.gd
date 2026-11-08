@@ -59,13 +59,13 @@ func _ready() -> void:
 
 	# Load multiple step sounds
 	step_sounds = [
-		load("res://assets/sounds/steps/step0.wav"),
-		load("res://assets/sounds/steps/step1.wav"),
-		load("res://assets/sounds/steps/step2.wav")
+		load("res://addons/fps_controller/assets/sounds/steps/step0.wav"),
+		load("res://addons/fps_controller/assets/sounds/steps/step1.wav"),
+		load("res://addons/fps_controller/assets/sounds/steps/step2.wav")
 	]
 
 	# Load jump sound
-	jump_sound = load("res://assets/sounds/jump.wav")
+	jump_sound = load("res://addons/fps_controller/assets/sounds/jump.wav")
 
 func _input(event: InputEvent) -> void:
 	if not config:

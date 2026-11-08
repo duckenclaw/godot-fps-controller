@@ -1,6 +1,6 @@
 extends Control
 
-const SLOT_BG: Texture2D = preload("res://assets/images/slot-bg.png")
+const SLOT_BG: Texture2D = preload("res://addons/fps_controller/assets/images/slot-bg.png")
 const QUICK_SLOT_SIZE: Vector2 = Vector2(64, 64)
 
 @onready var health_bar: ProgressBar = $MarginContainer/Bars/HealthBar

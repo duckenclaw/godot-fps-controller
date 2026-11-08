@@ -3,7 +3,7 @@ extends Control
 
 ## Full inventory UI: 8x5 grid + 8 quick slots, drag/drop with snap, sort, throw.
 
-const SLOT_BG: Texture2D = preload("res://assets/images/slot-bg.png")
+const SLOT_BG: Texture2D = preload("res://addons/fps_controller/assets/images/slot-bg.png")
 const PICKUP_SCENE: PackedScene = preload("res://addons/fps_controller/items/pickup.tscn")
 const CELL_SIZE: int = 64
 

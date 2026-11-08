@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dj3ng2wmtqap8"]
 
 [ext_resource type="Script" uid="uid://b6rlgkqgwlik8" path="res://addons/fps_controller/ui/options_screen.gd" id="1_6os7q"]
-[ext_resource type="Theme" uid="uid://ntqh6xyylbj0" path="res://assets/styles/theme.tres" id="1_8dcm6"]
+[ext_resource type="Theme" path="res://addons/fps_controller/assets/styles/theme.tres" id="1_8dcm6"]
 [ext_resource type="PackedScene" uid="uid://ddvtvd40qb7ab" path="res://addons/settings_kit/rebind_container.tscn" id="2_ciqaw"]
 
 [node name="OptionsScreen" type="Control" unique_id=1322824204]
