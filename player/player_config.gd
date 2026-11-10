@@ -72,5 +72,19 @@ extends Resource
 # Interaction
 @export var interact_distance: float = 3.0
 
+# Melee combat (see hand.gd)
+@export_group("Combat")
+@export_range(0.0, 1.0) var block_damage_reduction: float = 0.8  ## Share of a blocked hit that is absorbed.
+@export var block_stamina_cost: float = 1.0   ## Stamina drained per point of absorbed damage.
+@export var parry_window: float = 0.22        ## Seconds after raising the guard in which a hit is parried.
+@export var riposte_window: float = 0.9       ## Seconds after a parry in which the next attack is a riposte.
+@export var riposte_multiplier: float = 2.0   ## Damage multiplier of a riposte.
+@export var parry_slowmo: float = 0.35        ## Time scale during the parry flash (1 = off).
+@export var guard_break_time: float = 0.8     ## Seconds the guard is down after stamina runs out.
+@export var hitstop: float = 0.07             ## Seconds a swing freezes when it connects (0 = off).
+@export var stamina_regen: float = 22.0       ## Stamina restored per second.
+@export var stamina_regen_delay: float = 1.0  ## Seconds after spending stamina before it regenerates.
+@export_group("")
+
 # Gameplay settings
 @export var difficulty: String = "Normal"

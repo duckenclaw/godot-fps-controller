@@ -1,0 +1,42 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://addons/fps_controller/objects/training_dummy.gd" id="1_dummy"]
+[ext_resource type="Script" uid="uid://cs627yxjtwojn" path="res://addons/components_kit/health.gd" id="2_health"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_dummy"]
+radius = 0.38
+height = 1.8
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_dummy"]
+radius = 0.38
+height = 1.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_club"]
+albedo_color = Color(0.35, 0.25, 0.18, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_club"]
+material = SubResource("StandardMaterial3D_club")
+size = Vector3(0.12, 0.12, 1.1)
+
+[node name="TrainingDummy" type="StaticBody3D" groups=["enemy"]]
+script = ExtResource("1_dummy")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_dummy")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+mesh = SubResource("CapsuleMesh_dummy")
+
+[node name="ArmPivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.48, 1.35, 0)
+
+[node name="Club" type="MeshInstance3D" parent="ArmPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.55)
+mesh = SubResource("BoxMesh_club")
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("2_health")
+max_health = 60.0
+current_health = 60.0

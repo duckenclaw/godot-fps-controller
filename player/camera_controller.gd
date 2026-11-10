@@ -40,6 +40,16 @@ var shake_strength: float = 0.0
 const SHAKE_DECAY: float = 5.0
 const SHAKE_MAX_OFFSET: float = 0.25
 
+# View punch: a rotational spring kicked by combat events (add_punch), plus the
+# camera motion authored in the arm animations (anim_kick, set by Hands). Both
+# are added on top of the look rotation and never accumulate into it.
+var anim_kick: Vector3 = Vector3.ZERO
+var _punch: Vector3 = Vector3.ZERO
+var _punch_vel: Vector3 = Vector3.ZERO
+var _fov_kick: float = 0.0
+const PUNCH_STIFFNESS: float = 170.0
+const PUNCH_DAMPING: float = 20.0
+
 func _ready() -> void:
 	# Capture mouse
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -98,6 +108,10 @@ func _process(delta: float) -> void:
 
 	# Update screen shake
 	update_shake(delta)
+
+	# Combat view punch
+	update_punch(delta)
+	apply_view_offsets()
 
 ## Rotate camera based on mouse movement
 func rotate_camera(relative: Vector2) -> void:
@@ -216,7 +230,7 @@ func update_fov(delta: float) -> void:
 
 	# Smoothly interpolate FOV
 	current_fov = lerp(current_fov, target_fov, 5.0 * delta)
-	camera.fov = current_fov
+	camera.fov = current_fov + _fov_kick
 
 ## Set tilt override (used by states like wallrunning)
 func set_tilt_override(angle_degrees: float) -> void:
@@ -287,6 +301,34 @@ func play_jump_sound() -> void:
 
 	# Play the sound
 	footsteps_player.play()
+
+## Kick the view by up to `degrees` (pitch up, yaw left, roll); it springs back.
+func add_punch(degrees: Vector3) -> void:
+	var gain: float = sqrt(PUNCH_STIFFNESS) * 2.72
+	_punch_vel += Vector3(deg_to_rad(degrees.x), deg_to_rad(degrees.y), deg_to_rad(degrees.z)) * gain
+
+## Momentarily widen (+) or tighten (-) the field of view; it eases back.
+func add_fov_kick(degrees: float) -> void:
+	_fov_kick = clampf(_fov_kick + degrees, -15.0, 15.0)
+
+func update_punch(delta: float) -> void:
+	# Fixed small steps keep the spring stable through frame hitches.
+	var left: float = minf(delta, 0.1)
+	while left > 0.0:
+		var dt: float = minf(left, 1.0 / 120.0)
+		left -= dt
+		_punch_vel += (-PUNCH_STIFFNESS * _punch - PUNCH_DAMPING * _punch_vel) * dt
+		_punch += _punch_vel * dt
+	_fov_kick = lerpf(_fov_kick, 0.0, 1.0 - exp(-9.0 * delta))
+
+## Compose the camera's local rotation: look pitch + tilt, plus punch and the
+## animation-driven kick. Called every frame (and again by Hands after it has
+## sampled the arm animation, so the kick is never a frame late).
+func apply_view_offsets() -> void:
+	camera.rotation = Vector3(
+		rotation_x + _punch.x + anim_kick.x,
+		_punch.y + anim_kick.y,
+		current_tilt + _punch.z + anim_kick.z)
 
 ## Add screen shake. `amount` is roughly 0..1; calls stack and decay over time.
 func add_shake(amount: float) -> void:

@@ -48,6 +48,10 @@ var _interact_pressed: bool = false   # button is down and being tracked
 var _interact_time: float = 0.0       # how long it has been held this press
 var _interact_consumed: bool = false  # this press already grabbed/dropped — no tap pickup
 
+# True while a hand button is held, as seen by _input.
+var _left_hand_held: bool = false
+var _right_hand_held: bool = false
+
 # Crouch toggle state
 var is_crouch_toggled: bool = false
 
@@ -196,19 +200,29 @@ func _input(event: InputEvent) -> void:
 		_interact_consumed = false
 
 	# Handle hand actions — while holding, the hands instead drop/throw the object.
+	# Each button uses its own hand: attack with the weapon held there, or - if
+	# that hand holds no weapon - block with the other hand's weapon while held.
 	if event.is_action_pressed("left_hand"):
 		if _is_holding():
 			grab_controller.drop()
 		else:
+			_left_hand_held = true
 			hands.use_left_hand()
+	elif event.is_action_released("left_hand"):
+		_left_hand_held = false
+		hands.release_left_hand()
 
 	if event.is_action_pressed("right_hand"):
 		if _is_holding():
 			grab_controller.throw()
 		else:
+			_right_hand_held = true
 			hands.use_right_hand()
+	elif event.is_action_released("right_hand"):
+		_right_hand_held = false
+		hands.release_right_hand()
 
-	# Reload the right hand's ranged weapon
+	# Reload any held ranged weapon
 	if event.is_action_pressed("reload"):
 		hands.reload_right_hand()
 
@@ -225,6 +239,14 @@ func _physics_process(delta: float) -> void:
 
 	# Smoothly interpolate height
 	update_height_smooth(delta)
+
+	# Drop the guard if the release event was swallowed (e.g. a menu opened).
+	if _left_hand_held and not Input.is_action_pressed("left_hand"):
+		_left_hand_held = false
+		hands.release_left_hand()
+	if _right_hand_held and not Input.is_action_pressed("right_hand"):
+		_right_hand_held = false
+		hands.release_right_hand()
 
 	# Once interact has been held long enough, grab the movable object in view
 	# (only when grab is enabled; otherwise interact is tap-to-pickup only).
@@ -443,6 +465,11 @@ func take_damage(amount: float, source: Node = null) -> void:
 	if amount <= 0.0:
 		return
 	amount *= _difficulty_damage_multiplier()
+	# A raised guard absorbs most of a frontal hit; a well-timed one parries it.
+	if hands:
+		amount = hands.absorb_hit(amount, source)
+		if amount <= 0.0:
+			return
 	set_health(health - amount)
 
 	EventBus.damage_dealt.emit(self, amount, source)
